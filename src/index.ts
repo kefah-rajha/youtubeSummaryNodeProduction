@@ -59,15 +59,49 @@ app.use(express.urlencoded({ extended: true }));
 
 // Define the port for the server
 const PORT: number = parseInt(process.env.PORT as string, 10) || 5000;
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/YoutubeSummeriziation')
-  .then(() => console.log('Connected to MongoDB'))
-  .catch(err => console.error('Failed to connect to MongoDB:', err));
+// MongoDB connection
+console.log('🔍 Environment Check:');
+console.log('PORT:', process.env.PORT);
+console.log('NODE_ENV:', process.env.NODE_ENV);
+console.log('MONGODB_URI:', process.env.MONGODB_URI ? 'Provided' : 'Not provided');
 
-// Define a root route for testing the application
+if (process.env.MONGODB_URI) {
+  mongoose.connect(process.env.MONGODB_URI)
+    .then(() => console.log('✅ Connected to MongoDB Atlas'))
+    .catch(err => {
+      console.error('❌ MongoDB connection error:', err.message);
+      console.log('⚠️ Application will run without database');
+    });
+} else {
+  console.log('ℹ️ MONGODB_URI not provided, running without database');
+}
+
+// ✅ Routes - التأكد من أنهم مُعرّفين بشكل صحيح
+app.get('/', (req: Request, res: Response) => {
+  console.log('✅ Root endpoint called');
+  res.status(200).json({
+    success: true,
+    message: 'YouTube Summary API Server is running! 🚀',
+    timestamp: new Date().toISOString(),
+    endpoints: {
+      health: '/health',
+      api: '/api',
+      status: '/status',
+      root: '/'
+    }
+  });
+});
+
+// ✅ الـ route الأساسي - تأكد من المسار الصحيح
 app.get('/api', (req: Request, res: Response) => {
-   return res.status(200).json({
-    success:"true"
-   })
+  console.log('✅ /api endpoint called - this should work!');
+  res.status(200).json({
+    success: true,
+    message: 'API endpoint is working correctly! 🎉',
+    timestamp: new Date().toISOString(),
+    database: process.env.MONGODB_URI ? 'configured' : 'not configured',
+    environment: process.env.NODE_ENV || 'development'
+  });
 });
 
 // Setup routes
