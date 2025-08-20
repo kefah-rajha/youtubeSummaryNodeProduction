@@ -11,9 +11,9 @@ import mongoose from 'mongoose';
 
 // import { ClerkExpressRequireAuth } from '@clerk/clerk-sdk-node';
 // import userWebHookRoutes from './routes/user.webHook.routes.js'
-// import userRoute from './routes/user.routes.js'
-// import checkoutRoute from "./routes/subscription.routes.js"
-// import subscriptionRoute from "./routes/subscriptionTiers.routes.js"
+ import userRoute from './routes/user.routes.js'
+ import checkoutRoute from "./routes/subscription.routes.js"
+ import subscriptionRoute from "./routes/subscriptionTiers.routes.js"
 // Increase max event listeners
 // Load environment variables from .env file
 dotenv.config();
@@ -72,9 +72,9 @@ app.get('/api', (req: Request, res: Response) => {
 
 // Setup routes
 // setupRoutes(app);
-// app.use('/api', userRoute);
-// app.use('/api', checkoutRoute);
-// app.use('/api', subscriptionRoute);
+ app.use('/api', userRoute);
+ app.use('/api', checkoutRoute);
+app.use('/api', subscriptionRoute);
 
 
 
