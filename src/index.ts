@@ -42,7 +42,9 @@ app.use(helmet());
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15-minute window
   max: 100, // Maximum number of requests per IP in the window
-  message: 'Too many requests, please try again later'
+  message: 'Too many requests, please try again later',
+  validate: { trustProxy: false } // تعطيل تحذير trust proxy
+
 });
 app.use(limiter);
 
