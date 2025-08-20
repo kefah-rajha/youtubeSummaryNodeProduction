@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { Tier } from '../models/subscriptionTiers.js';
+import { Tier } from '../models/subscriptionTiers';
 
 // Initial data to populate the database with if it's empty.
 const initialTiers = [

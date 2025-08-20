@@ -1,6 +1,6 @@
-import User from '../models/user.auth.js';
+import User from '../models/user.auth';
 import 'dotenv/config';
-import { paddle } from "../config/paddle.js";
+import { paddle } from "../config/paddle";
 import { webhookProcessor } from "../utils/WebhookProcessor";
 import { getAuth } from '@clerk/express';
 import { Subscriptions } from "../models/subscriptionsModels";

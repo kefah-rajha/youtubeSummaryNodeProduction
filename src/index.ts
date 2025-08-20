@@ -11,9 +11,9 @@ import mongoose from 'mongoose';
 
 // import { ClerkExpressRequireAuth } from '@clerk/clerk-sdk-node';
 // import userWebHookRoutes from './routes/user.webHook.routes.js'
- import userRoute from './routes/user.routes.js'
- import checkoutRoute from "./routes/subscription.routes.js"
- import subscriptionRoute from "./routes/subscriptionTiers.routes.js"
+ import userRoute from './routes/user.routes'
+ import checkoutRoute from "./routes/subscription.routes"
+ import subscriptionRoute from "./routes/subscriptionTiers.routes"
 // Increase max event listeners
 // Load environment variables from .env file
 dotenv.config();
@@ -58,7 +58,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Define the port for the server
-const PORT: number = parseInt(process.env.PORT as string, 10) || 3000;
+const PORT: number = parseInt(process.env.PORT as string, 10) || 5000;
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/YoutubeSummeriziation')
   .then(() => console.log('Connected to MongoDB'))
   .catch(err => console.error('Failed to connect to MongoDB:', err));

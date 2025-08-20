@@ -1,7 +1,7 @@
 import express from 'express';
 
 import { Webhook } from 'svix';
-import User from '../models/user.auth.js';
+import User from '../models/user.auth';
 import 'dotenv/config';
 
 console.log(process.env.CLERK_WEBHOOK_SECRET, "process.env.CLERK_WEBHOOK_SECRET");

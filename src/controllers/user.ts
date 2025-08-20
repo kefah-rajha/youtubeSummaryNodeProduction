@@ -1,4 +1,4 @@
-import User from '../models/user.auth.js';
+import User from '../models/user.auth';
 
 export const user = {
     // Controller function to get a paginated list of all users.

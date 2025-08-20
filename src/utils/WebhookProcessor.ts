@@ -1,7 +1,7 @@
-import { Subscriptions } from "../models/subscriptionsModels.js";
-import User from '../models/user.auth.js';
+import { Subscriptions } from "../models/subscriptionsModels";
+import User from '../models/user.auth';
 
-import { parsePaddleSubscription } from "../utils/paddleWebHookDataEventHandler.js";
+import { parsePaddleSubscription } from "../utils/paddleWebHookDataEventHandler";
 
 /**
  * Creates a webhook processor for handling events from the Paddle payment gateway.
