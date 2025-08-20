@@ -57,7 +57,9 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/YoutubeSu
 
 // Define a root route for testing the application
 app.get('/', (req: Request, res: Response) => {
-  res.send('Hello! The application is running successfully');
+   return res.status(200).json({
+    success:"true"
+   })
 });
 
 // Setup routes
