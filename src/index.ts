@@ -22,10 +22,16 @@ dotenv.config();
 const app: Application = express();
 
 // Enable CORS to allow requests from specific origins
+// app.use(cors({
+//   origin: process.env.ALLOWED_ORIGINS || 'http://localhost:3000', // Specify allowed origins
+//   methods: ['GET', 'POST', 'PUT', 'DELETE'], // Specify allowed HTTP methods
+//   credentials: true // Allow sending credentials (e.g., cookies)
+// }));
+
 app.use(cors({
-  origin: process.env.ALLOWED_ORIGINS || 'http://localhost:3000', // Specify allowed origins
-  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Specify allowed HTTP methods
-  credentials: true // Allow sending credentials (e.g., cookies)
+ origin: '*', // مؤقتاً للاختبار
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true
 }));
 
 // Enable Helmet to secure HTTP headers
