@@ -56,7 +56,7 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/YoutubeSu
   .catch(err => console.error('Failed to connect to MongoDB:', err));
 
 // Define a root route for testing the application
-app.get('/', (req: Request, res: Response) => {
+app.get('/api', (req: Request, res: Response) => {
    return res.status(200).json({
     success:"true"
    })
