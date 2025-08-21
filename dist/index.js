@@ -13,19 +13,24 @@ const mongoose_1 = __importDefault(require("mongoose"));
 // import { clerkMiddleware } from '@clerk/express';
 // import { ClerkExpressRequireAuth } from '@clerk/clerk-sdk-node';
 // import userWebHookRoutes from './routes/user.webHook.routes.js'
-// import userRoute from './routes/user.routes.js'
-// import checkoutRoute from "./routes/subscription.routes.js"
-// import subscriptionRoute from "./routes/subscriptionTiers.routes.js"
+const user_routes_1 = __importDefault(require("./routes/user.routes"));
+const subscription_routes_1 = __importDefault(require("./routes/subscription.routes"));
+const subscriptionTiers_routes_1 = __importDefault(require("./routes/subscriptionTiers.routes"));
 // Increase max event listeners
 // Load environment variables from .env file
 dotenv_1.default.config();
 // Create an Express application
 const app = (0, express_1.default)();
 // Enable CORS to allow requests from specific origins
+// app.use(cors({
+//   origin: process.env.ALLOWED_ORIGINS || 'http://localhost:3000', // Specify allowed origins
+//   methods: ['GET', 'POST', 'PUT', 'DELETE'], // Specify allowed HTTP methods
+//   credentials: true // Allow sending credentials (e.g., cookies)
+// }));
 app.use((0, cors_1.default)({
-    origin: process.env.ALLOWED_ORIGINS || 'http://localhost:3000', // Specify allowed origins
-    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Specify allowed HTTP methods
-    credentials: true // Allow sending credentials (e.g., cookies)
+    origin: '*', // مؤقتاً للاختبار
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    credentials: true
 }));
 // Enable Helmet to secure HTTP headers
 app.use((0, helmet_1.default)());
@@ -34,7 +39,8 @@ app.use((0, helmet_1.default)());
 const limiter = (0, express_rate_limit_1.default)({
     windowMs: 15 * 60 * 1000, // 15-minute window
     max: 100, // Maximum number of requests per IP in the window
-    message: 'Too many requests, please try again later'
+    message: 'Too many requests, please try again later',
+    validate: { trustProxy: false } // تعطيل تحذير trust proxy
 });
 app.use(limiter);
 // Enable Morgan for logging HTTP requests to the console
@@ -44,19 +50,21 @@ app.use(express_1.default.json());
 // Parse URL-encoded request bodies
 app.use(express_1.default.urlencoded({ extended: true }));
 // Define the port for the server
-const PORT = parseInt(process.env.PORT, 10) || 3000;
+const PORT = parseInt(process.env.PORT, 10) || 5000;
 mongoose_1.default.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/YoutubeSummeriziation')
     .then(() => console.log('Connected to MongoDB'))
     .catch(err => console.error('Failed to connect to MongoDB:', err));
 // Define a root route for testing the application
-app.get('/', (req, res) => {
-    res.send('Hello! The application is running successfully');
+app.get('/api', (req, res) => {
+    return res.status(200).json({
+        success: "true"
+    });
 });
 // Setup routes
 // setupRoutes(app);
-// app.use('/api', userRoute);
-// app.use('/api', checkoutRoute);
-// app.use('/api', subscriptionRoute);
+app.use('/api', user_routes_1.default);
+app.use('/api', subscription_routes_1.default);
+app.use('/api', subscriptionTiers_routes_1.default);
 // Start the server
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

@@ -14,7 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.auth = void 0;
 const svix_1 = require("svix");
-const user_auth_js_1 = __importDefault(require("../models/user.auth.js"));
+const user_auth_1 = __importDefault(require("../models/user.auth"));
 require("dotenv/config");
 console.log(process.env.CLERK_WEBHOOK_SECRET, "process.env.CLERK_WEBHOOK_SECRET");
 exports.auth = {
@@ -24,7 +24,7 @@ exports.auth = {
         console.log(id);
         try {
             // Find the user by their clerkId and populate the current subscription.
-            const user = yield user_auth_js_1.default.find({ clerkId: id }).populate("currentSubscriptionId");
+            const user = yield user_auth_1.default.find({ clerkId: id }).populate("currentSubscriptionId");
             // If no user is found, return a 400 Bad Request.
             if (!user) {
                 return res.status(400).json({
@@ -88,7 +88,7 @@ exports.auth = {
             try {
                 const { id, email_addresses, first_name, last_name } = data;
                 // Create a new user in our database.
-                yield user_auth_js_1.default.create({
+                yield user_auth_1.default.create({
                     clerkId: id,
                     email: email_addresses[0].email_address,
                     firstName: first_name,
@@ -107,7 +107,7 @@ exports.auth = {
                 const { id, email_addresses, first_name, last_name } = data;
                 console.log(id, email_addresses, first_name, last_name, "update user");
                 // Find and update the user in our database.
-                yield user_auth_js_1.default.findOneAndUpdate({ clerkId: id }, {
+                yield user_auth_1.default.findOneAndUpdate({ clerkId: id }, {
                     email: email_addresses[0].email_address,
                     firstName: first_name,
                     lastName: last_name
@@ -123,7 +123,7 @@ exports.auth = {
             try {
                 const { id } = data;
                 // Find and delete the user from our database.
-                yield user_auth_js_1.default.findOneAndDelete({ clerkId: id });
+                yield user_auth_1.default.findOneAndDelete({ clerkId: id });
                 console.log(`User deleted from database: ${id}`);
             }
             catch (error) {

@@ -13,7 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.user = void 0;
-const user_auth_js_1 = __importDefault(require("../models/user.auth.js"));
+const user_auth_1 = __importDefault(require("../models/user.auth"));
 exports.user = {
     // Controller function to get a paginated list of all users.
     getAllUsers: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -30,7 +30,7 @@ exports.user = {
             if (searchInput === "" && sort === "1" && dateRange.startDate === "" && dateRange.endDate === "") {
                 console.log("test11");
                 // If no filters are present, fetch users with simple pagination.
-                const users = yield user_auth_js_1.default.find({}).populate("currentSubscriptionId").skip(skipItems)
+                const users = yield user_auth_1.default.find({}).populate("currentSubscriptionId").skip(skipItems)
                     .limit(pageSize);
                 console.log(users, "user");
                 return res.status(200).json({
@@ -82,7 +82,7 @@ exports.user = {
                 }
                 console.log(query);
                 // Execute the query with all applied filters, sorting, and pagination.
-                const users = yield user_auth_js_1.default
+                const users = yield user_auth_1.default
                     .find(query)
                     .populate("currentSubscriptionId")
                     .sort(sortOptions)
@@ -108,7 +108,7 @@ exports.user = {
     // Controller function to get the total number of users.
     getNumberUsers: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         console.log("scss");
-        user_auth_js_1.default.countDocuments()
+        user_auth_1.default.countDocuments()
             .then((count) => {
             console.log(count);
             // Return the count of all user documents.

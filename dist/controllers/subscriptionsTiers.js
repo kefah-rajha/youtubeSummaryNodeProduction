@@ -10,7 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.tier = void 0;
-const subscriptionTiers_js_1 = require("../models/subscriptionTiers.js");
+const subscriptionTiers_1 = require("../models/subscriptionTiers");
 // Initial data to populate the database with if it's empty.
 const initialTiers = [
     {
@@ -57,10 +57,10 @@ exports.tier = {
     getTiers: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         try {
             // Count existing tier documents.
-            const existingTiers = yield subscriptionTiers_js_1.Tier.countDocuments();
+            const existingTiers = yield subscriptionTiers_1.Tier.countDocuments();
             if (existingTiers === 0) {
                 // If no tiers exist, insert the initial data.
-                const tiers = yield subscriptionTiers_js_1.Tier.insertMany(initialTiers);
+                const tiers = yield subscriptionTiers_1.Tier.insertMany(initialTiers);
                 console.log(tiers, "tiers");
                 res.status(200).json({
                     success: true,
@@ -70,7 +70,7 @@ exports.tier = {
             }
             else {
                 // If tiers already exist, fetch them all.
-                const tiers = yield subscriptionTiers_js_1.Tier.find().sort({ createdAt: 1 });
+                const tiers = yield subscriptionTiers_1.Tier.find().sort({ createdAt: 1 });
                 res.status(200).json({
                     success: true,
                     count: tiers.length,
@@ -96,7 +96,7 @@ exports.tier = {
             const { id } = req.params;
             const updateData = req.body;
             // Find and update the tier document. `new: true` returns the updated document.
-            const updatedTier = yield subscriptionTiers_js_1.Tier.findOneAndUpdate({ _id: id }, updateData, { new: true, runValidators: true });
+            const updatedTier = yield subscriptionTiers_1.Tier.findOneAndUpdate({ _id: id }, updateData, { new: true, runValidators: true });
             console.log(updatedTier, "updateData");
             if (!updatedTier) {
                 res.status(404).json({
@@ -129,7 +129,7 @@ exports.tier = {
         try {
             const { id } = req.params;
             // Find and delete the tier document.
-            const deletedTier = yield subscriptionTiers_js_1.Tier.findOneAndDelete({ id: id });
+            const deletedTier = yield subscriptionTiers_1.Tier.findOneAndDelete({ id: id });
             if (!deletedTier) {
                 res.status(404).json({
                     success: false,
@@ -160,7 +160,7 @@ exports.tier = {
         try {
             const { id } = req.params;
             // Find a single tier by its `_id`.
-            const tier = yield subscriptionTiers_js_1.Tier.findOne({ _id: id });
+            const tier = yield subscriptionTiers_1.Tier.findOne({ _id: id });
             if (!tier) {
                 res.status(404).json({
                     success: false,
@@ -189,7 +189,7 @@ exports.tier = {
     getAllTiers: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         try {
             // Find all tiers and sort them by creation date.
-            const tiers = yield subscriptionTiers_js_1.Tier.find().sort({ createdAt: 1 });
+            const tiers = yield subscriptionTiers_1.Tier.find().sort({ createdAt: 1 });
             res.status(200).json({
                 success: true,
                 count: tiers.length,

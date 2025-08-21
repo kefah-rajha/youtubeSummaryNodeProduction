@@ -13,9 +13,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.subscriptionHandle = void 0;
-const user_auth_js_1 = __importDefault(require("../models/user.auth.js"));
+const user_auth_1 = __importDefault(require("../models/user.auth"));
 require("dotenv/config");
-const paddle_js_1 = require("../config/paddle.js");
+const paddle_1 = require("../config/paddle");
 const WebhookProcessor_1 = require("../utils/WebhookProcessor");
 const express_1 = require("@clerk/express");
 const subscriptionsModels_1 = require("../models/subscriptionsModels");
@@ -33,7 +33,7 @@ exports.subscriptionHandle = {
                 return res.status(400).json({ error: 'Bad request' });
             }
             // Unmarshal and verify the webhook event data.
-            const eventData = yield paddle_js_1.paddle.webhooks.unmarshal(rawRequestBody, privateKey, signature);
+            const eventData = yield paddle_1.paddle.webhooks.unmarshal(rawRequestBody, privateKey, signature);
             const eventName = (eventData === null || eventData === void 0 ? void 0 : eventData.eventType) || 'Unknown event';
             // Process the received event.
             if (eventData) {
@@ -76,7 +76,7 @@ exports.subscriptionHandle = {
                 return res.status(401).json({ message: 'Unauthorized' });
             }
             // Find the user in the database.
-            const user = yield user_auth_js_1.default.findOne({ clerkId: userId });
+            const user = yield user_auth_1.default.findOne({ clerkId: userId });
             if (!user) {
                 return res.status(404).json({ message: 'User not found' });
             }
@@ -114,7 +114,7 @@ exports.subscriptionHandle = {
                     nextBillingDate: null
                 }, { new: true, session });
                 // 2. Update the user to remove the subscription reference.
-                yield user_auth_js_1.default.findOneAndUpdate({ clerkId: userId }, { $set: { currentSubscriptionId: null } }, { session });
+                yield user_auth_1.default.findOneAndUpdate({ clerkId: userId }, { $set: { currentSubscriptionId: null } }, { session });
                 // Commit the transaction if everything is successful.
                 yield session.commitTransaction();
                 return res.status(200).json({

@@ -13,9 +13,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.webhookProcessor = void 0;
-const subscriptionsModels_js_1 = require("../models/subscriptionsModels.js");
-const user_auth_js_1 = __importDefault(require("../models/user.auth.js"));
-const paddleWebHookDataEventHandler_js_1 = require("../utils/paddleWebHookDataEventHandler.js");
+const subscriptionsModels_1 = require("../models/subscriptionsModels");
+const user_auth_1 = __importDefault(require("../models/user.auth"));
+const paddleWebHookDataEventHandler_1 = require("../utils/paddleWebHookDataEventHandler");
 /**
  * Creates a webhook processor for handling events from the Paddle payment gateway.
  * This factory function encapsulates the logic for different event types.
@@ -29,18 +29,18 @@ function createWebhookProcessor() {
     function handleSubscriptionCreated(eventData) {
         return __awaiter(this, void 0, void 0, function* () {
             // Parse the incoming event data into a structured ISubscription object.
-            const subscriptionData = (0, paddleWebHookDataEventHandler_js_1.parsePaddleSubscription)(eventData);
+            const subscriptionData = (0, paddleWebHookDataEventHandler_1.parsePaddleSubscription)(eventData);
             console.log(subscriptionData.user, "subscriptionData");
             try {
                 if (subscriptionData.user) {
                     // Create a new subscription document in the database.
-                    const subscription = new subscriptionsModels_js_1.Subscriptions(Object.assign({}, subscriptionData));
+                    const subscription = new subscriptionsModels_1.Subscriptions(Object.assign({}, subscriptionData));
                     const subscriptionAfterSave = yield subscription.save();
                     console.log(subscriptionAfterSave.user, "subscriptionAfterSave Id");
                     console.log(subscriptionAfterSave.user, "subscriptionAfterSave user");
                     // Find the user and link the newly created subscription to their profile.
                     // We use `clerkId` to find the user and set `currentSubscriptionId` to the new subscription's ID.
-                    const updateSubscriptionUser = yield user_auth_js_1.default.updateOne({ clerkId: subscriptionAfterSave.user }, { $set: { currentSubscriptionId: subscriptionAfterSave._id } }, { runValidators: true });
+                    const updateSubscriptionUser = yield user_auth_1.default.updateOne({ clerkId: subscriptionAfterSave.user }, { $set: { currentSubscriptionId: subscriptionAfterSave._id } }, { runValidators: true });
                 }
             }
             catch (error) {
