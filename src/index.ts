@@ -20,6 +20,7 @@ dotenv.config();
 
 // Create an Express application
 const app: Application = express();
+app.set('trust proxy', 1);
 
 // Enable CORS to allow requests from specific origins
 // app.use(cors({
@@ -39,14 +40,15 @@ app.use(helmet());
 // app.use(clerkMiddleware());
 
 // Set up rate limiting to prevent DDoS attacks
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15-minute window
-  max: 100, // Maximum number of requests per IP in the window
-  message: 'Too many requests, please try again later',
-  validate: { trustProxy: false } // تعطيل تحذير trust proxy
+// const limiter = rateLimit({
+//   windowMs: 15 * 60 * 1000, // 15-minute window
+//   max: 100, // Maximum number of requests per IP in the window
+//   message: 'Too many requests, please try again later',
+//     standardHeaders: true,
+//   legacyHeaders: false,
 
-});
-app.use(limiter);
+// });
+// app.use(limiter);
 
 // Enable Morgan for logging HTTP requests to the console
 app.use(morgan('combined'));
@@ -84,4 +86,4 @@ app.listen(PORT, () => {
 });
 
 
-
+export default app;
